@@ -22,7 +22,7 @@ export class RDSStack extends cdk.Stack {
             allocatedStorage: 20,
             maxAllocatedStorage: 30,
             instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
-            deletionProtection: true,
+            deletionProtection: false,
             backupRetention: cdk.Duration.days(7),
             parameterGroup: rds.ParameterGroup.forInstance(this, 'RDSParameterGroup', {
                 engine: rds.DatabaseInstanceEngine.mysql({version: {
