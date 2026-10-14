@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib/core';
 import { CdkVpcProjectStack } from '../lib/cdk-vpc-project-stack';
+import {EC2Stack} from '../lib/ec2-stack'
+import { RDSStack } from '../lib/rds-stack';
 
 const app = new cdk.App();
-new CdkVpcProjectStack(app, 'CdkVpcProjectStack', {
+const vpcStack = new CdkVpcProjectStack(app, 'CdkVpcProjectStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -17,4 +19,16 @@ new CdkVpcProjectStack(app, 'CdkVpcProjectStack', {
   // env: { account: '123456789012', region: 'us-east-1' },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+
 });
+
+new EC2Stack(app, 'EC2Stack', {
+    vpc: vpcStack.vpc,
+})
+
+new RDSStack(app, 'RDSStack', {
+    vpc: vpcStack.vpc
+})
+
+
+app.synth();
